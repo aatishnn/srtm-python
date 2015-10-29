@@ -37,6 +37,12 @@ def get_file_name(lon, lat):
     else:
         return None
 
+
+if __name__ == '__main__':
+    # Mt. Everest
+    print get_elevation(86.925278, 27.988056)
+    # Kanchanjunga
+    print get_elevation(88.146667, 27.7025)
         
         
 
