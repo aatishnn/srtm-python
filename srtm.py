@@ -10,12 +10,13 @@ def get_elevation(lon, lat):
     if file:
         return read_elevation_from_file(file, lon, lat)
     # Treat it as data void as in SRTM documentation
+    # if file is absent
     return -32768
 
 
 def read_elevation_from_file(file, lon, lat):
     with open(file) as hgt_data:
-        # HGT is 16bit signed integer - big endian
+        # HGT is 16bit signed integer(i2) - big endian(>)
         elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)
                                 .reshape((SAMPLES, SAMPLES))
         
@@ -25,6 +26,10 @@ def read_elevation_from_file(file, lon, lat):
         return elevations[1200-lat_row, lon_row].astype(int)
 
 def get_file_name(lon, lat):
+    '''
+    Returns filename such as N27E086.hgt, concatenated
+    with HGTDIR where these 'hgt' files are kept 
+    '''
     file = "N%(lat)dE0%(lon)d.hgt" % {'lat':lat, 'lon':lon}
     file = os.path.join(HGTDIR, file)
     if os.path.isfile(file):
