@@ -3,7 +3,7 @@ import json
 import numpy as np
 
 SAMPLES = 1201 # For SRTM3, use 3601 for SRTM1
-
+HGTDIR = 'hgt' # All 'hgt' files will be kept here uncompressed
 
 def get_elevation(lat, lon):
     file = get_file_name(lat, lon)
@@ -26,6 +26,7 @@ def read_elevation_from_file(file, lat, lon):
 
 def get_file_name(lat, lon):
     file = "N%(lat)dE0%(lon)d.hgt" % {'lat':lat, 'lon':lon}
+    file = os.path.join(HGTDIR, file)
     if os.path.isfile(file):
         return file
     else:
