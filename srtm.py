@@ -1,9 +1,9 @@
 import os
-import json
 import numpy as np
 
-SAMPLES = 1201 # Change this to 3601 for SRTM1
-HGTDIR = 'hgt' # All 'hgt' files will be kept here uncompressed
+SAMPLES = 1201  # Change this to 3601 for SRTM1
+HGTDIR = 'hgt'  # All 'hgt' files will be kept here uncompressed
+
 
 def get_elevation(lon, lat):
     file = get_file_name(lon, lat)
@@ -20,17 +20,18 @@ def read_elevation_from_file(file, lon, lat):
         elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
                                 .reshape((SAMPLES, SAMPLES))
         
-        lat_row = round((lat - int(lat))* 1200, 0)
-        lon_row = round((lon - int(lon))* 1200, 0)
+        lat_row = round((lat - int(lat)) * 1200, 0)
+        lon_row = round((lon - int(lon)) * 1200, 0)
         
         return elevations[1200-lat_row, lon_row].astype(int)
 
+
 def get_file_name(lon, lat):
-    '''
+    """
     Returns filename such as N27E086.hgt, concatenated
     with HGTDIR where these 'hgt' files are kept 
-    '''
-    file = "N%(lat)02dE%(lon)03d.hgt" % {'lat':lat, 'lon':lon}
+    """
+    file = "N%(lat)02dE%(lon)03d.hgt" % {'lat': lat, 'lon': lon}
     file = os.path.join(HGTDIR, file)
     if os.path.isfile(file):
         return file
