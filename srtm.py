@@ -7,16 +7,16 @@ HGTDIR = 'hgt'  # All 'hgt' files will be kept here uncompressed
 
 
 def get_elevation(lon, lat):
-    file = get_file_name(lon, lat)
-    if file:
-        return read_elevation_from_file(file, lon, lat)
+    hgt_file = get_file_name(lon, lat)
+    if hgt_file:
+        return read_elevation_from_file(hgt_file, lon, lat)
     # Treat it as data void as in SRTM documentation
     # if file is absent
     return -32768
 
 
-def read_elevation_from_file(file, lon, lat):
-    with open(file) as hgt_data:
+def read_elevation_from_file(hgt_file, lon, lat):
+    with open(hgt_file) as hgt_data:
         # HGT is 16bit signed integer(i2) - big endian(>)
         elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
                                 .reshape((SAMPLES, SAMPLES))
@@ -32,10 +32,10 @@ def get_file_name(lon, lat):
     Returns filename such as N27E086.hgt, concatenated
     with HGTDIR where these 'hgt' files are kept 
     """
-    file = "N%(lat)02dE%(lon)03d.hgt" % {'lat': lat, 'lon': lon}
-    file = os.path.join(HGTDIR, file)
-    if os.path.isfile(file):
-        return file
+    hgt_file = "N%(lat)02dE%(lon)03d.hgt" % {'lat': lat, 'lon': lon}
+    hgt_file_path = os.path.join(HGTDIR, hgt_file)
+    if os.path.isfile(hgt_file_path):
+        return hgt_file_path
     else:
         return None
 
@@ -45,7 +45,3 @@ if __name__ == '__main__':
     print(get_elevation(86.925278, 27.988056))
     # Kanchanjunga
     print(get_elevation(88.146667, 27.7025))
-        
-        
-
-
