@@ -17,7 +17,7 @@ def get_elevation(lon, lat):
 def read_elevation_from_file(file, lon, lat):
     with open(file) as hgt_data:
         # HGT is 16bit signed integer(i2) - big endian(>)
-        elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)
+        elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
                                 .reshape((SAMPLES, SAMPLES))
         
         lat_row = round((lat - int(lat))* 1200, 0)
