@@ -30,7 +30,7 @@ def get_file_name(lon, lat):
     Returns filename such as N27E086.hgt, concatenated
     with HGTDIR where these 'hgt' files are kept 
     '''
-    file = "N%(lat)dE0%(lon)d.hgt" % {'lat':lat, 'lon':lon}
+    file = "N%(lat)02dE%(lon)03d.hgt" % {'lat':lat, 'lon':lon}
     file = os.path.join(HGTDIR, file)
     if os.path.isfile(file):
         return file
