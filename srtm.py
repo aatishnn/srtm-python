@@ -30,9 +30,20 @@ def read_elevation_from_file(hgt_file, lon, lat):
 def get_file_name(lon, lat):
     """
     Returns filename such as N27E086.hgt, concatenated
-    with HGTDIR where these 'hgt' files are kept 
+    with HGTDIR where these 'hgt' files are kept
     """
-    hgt_file = "N%(lat)02dE%(lon)03d.hgt" % {'lat': lat, 'lon': lon}
+
+    if lat >= 0:
+        ns = 'N'
+    elif lat < 0:
+        ns = 'S'
+
+    if lon >= 0:
+        ew = 'E'
+    elif lon < 0:
+        ew = 'W'
+
+    hgt_file = "(ns)%(lat)02d(ew)%(lon)03d.hgt" % {'lat': lat, 'lon': lon, 'ns': ns, 'ew': ew}
     hgt_file_path = os.path.join(HGTDIR, hgt_file)
     if os.path.isfile(hgt_file_path):
         return hgt_file_path
