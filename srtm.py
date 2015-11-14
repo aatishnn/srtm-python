@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import numpy as np
 
@@ -20,8 +21,8 @@ def read_elevation_from_file(file, lon, lat):
         elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
                                 .reshape((SAMPLES, SAMPLES))
         
-        lat_row = round((lat - int(lat)) * 1200, 0)
-        lon_row = round((lon - int(lon)) * 1200, 0)
+        lat_row = int(round((lat - int(lat)) * 1200, 0))
+        lon_row = int(round((lon - int(lon)) * 1200, 0))
         
         return elevations[1200-lat_row, lon_row].astype(int)
 
@@ -41,9 +42,9 @@ def get_file_name(lon, lat):
 
 if __name__ == '__main__':
     # Mt. Everest
-    print get_elevation(86.925278, 27.988056)
+    print(get_elevation(86.925278, 27.988056))
     # Kanchanjunga
-    print get_elevation(88.146667, 27.7025)
+    print(get_elevation(88.146667, 27.7025))
         
         
 
