@@ -43,7 +43,7 @@ def get_file_name(lon, lat):
     elif lon < 0:
         ew = 'W'
 
-    hgt_file = "%(ns)s%(lat)02d%(ew)s%(lon)03d.hgt" % {'lat': lat, 'lon': lon, 'ns': ns, 'ew': ew}
+    hgt_file = "%(ns)s%(lat)02d%(ew)s%(lon)03d.hgt" % {'lat': abs(lat), 'lon': abs(lon), 'ns': ns, 'ew': ew}
     hgt_file_path = os.path.join(HGTDIR, hgt_file)
     if os.path.isfile(hgt_file_path):
         return hgt_file_path
