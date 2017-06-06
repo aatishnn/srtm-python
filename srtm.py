@@ -21,10 +21,10 @@ def read_elevation_from_file(hgt_file, lon, lat):
         elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
                                 .reshape((SAMPLES, SAMPLES))
         
-        lat_row = int(round((lat - int(lat)) * 1200, 0))
-        lon_row = int(round((lon - int(lon)) * 1200, 0))
+        lat_row = int(round((lat - int(lat)) * (SAMPLES - 1), 0))
+        lon_row = int(round((lon - int(lon)) * (SAMPLES - 1), 0))
         
-        return elevations[1200-lat_row, lon_row].astype(int)
+        return elevations[SAMPLES - 1 - lat_row, lon_row].astype(int)
 
 
 def get_file_name(lon, lat):
