@@ -5,7 +5,7 @@ import numpy as np
 SRTM_DICT = {'SRTM1': 3601, 'SRTM3': 1201}
 
 # Get the type of SRTM files or use SRTM1 by default
-SRTM_TYPE = os.getenv('SRTM_TYPE', 'SRTM1')
+SRTM_TYPE = os.getenv('SRTM_TYPE', 'SRTM3')
 SAMPLES = SRTM_DICT[SRTM_TYPE]
 
 # put uncompressed hgt files in HGT_DIR, defaults to 'hgt'
