@@ -2,13 +2,15 @@ from __future__ import print_function
 import os
 import numpy as np
 
-SRTM_DICT = {'SRTM1' : 3601, 'SRTM3' : 1201}
-SRTM_type = os.getenv('SRTM_TYPE', 'SRTM1') # Get the type of SRTM files or 
-                                            # use SRTM1 by default
-SAMPLES = SRTM_DICT[SRTM_type]
-HGTDIR = os.getenv('HGT_DIR', 'hgt')  # Get OS env. location of files, 
-                                      # or default to 'hgt', where files 
-                                      # should be kept uncompressed
+SRTM_DICT = {'SRTM1': 3601, 'SRTM3': 1201}
+
+# Get the type of SRTM files or use SRTM1 by default
+SRTM_TYPE = os.getenv('SRTM_TYPE', 'SRTM1')
+SAMPLES = SRTM_DICT[SRTM_TYPE]
+
+# put uncompressed hgt files in HGT_DIR, defaults to 'hgt'
+HGTDIR = os.getenv('HGT_DIR', 'hgt')
+
 
 def get_elevation(lat, lon):
     hgt_file = get_file_name(lat, lon)
@@ -17,6 +19,7 @@ def get_elevation(lat, lon):
     # Treat it as data void as in SRTM documentation
     # if file is absent
     return -32768
+
 
 def read_elevation_from_file(hgt_file, lat, lon):
     with open(hgt_file, 'rb') as hgt_data:
@@ -28,6 +31,7 @@ def read_elevation_from_file(hgt_file, lat, lon):
         lon_row = int(round((lon - int(lon)) * (SAMPLES - 1), 0))
         
         return elevations[SAMPLES - 1 - lat_row, lon_row].astype(int)
+
 
 def get_file_name(lat, lon):
     """
@@ -51,6 +55,7 @@ def get_file_name(lat, lon):
         return hgt_file_path
     else:
         return None
+
 
 if __name__ == '__main__':
     # Mt. Everest
