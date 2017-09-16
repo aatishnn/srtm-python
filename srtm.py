@@ -4,7 +4,7 @@ import numpy as np
 
 SRTM_DICT = {'SRTM1': 3601, 'SRTM3': 1201}
 
-# Get the type of SRTM files or use SRTM1 by default
+# Get the type of SRTM files or use SRTM3 by default
 SRTM_TYPE = os.getenv('SRTM_TYPE', 'SRTM3')
 SAMPLES = SRTM_DICT[SRTM_TYPE]
 
