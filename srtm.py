@@ -24,12 +24,15 @@ def get_elevation(lat, lon):
 def read_elevation_from_file(hgt_file, lat, lon):
     with open(hgt_file, 'rb') as hgt_data:
         # HGT is 16bit signed integer(i2) - big endian(>)
-        elevations = np.fromfile(hgt_data, np.dtype('>i2'), SAMPLES*SAMPLES)\
-                                .reshape((SAMPLES, SAMPLES))
-        
+        elevations = np.fromfile(
+            hgt_data,  # binary data
+            np.dtype('>i2'),  # data type
+            SAMPLES * SAMPLES  # length
+        ).reshape((SAMPLES, SAMPLES))
+
         lat_row = int(round((lat - int(lat)) * (SAMPLES - 1), 0))
         lon_row = int(round((lon - int(lon)) * (SAMPLES - 1), 0))
-        
+
         return elevations[SAMPLES - 1 - lat_row, lon_row].astype(int)
 
 
