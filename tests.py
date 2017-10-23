@@ -1,4 +1,6 @@
+import re
 import unittest
+import subprocess
 from srtm import get_elevation, get_file_name
 
 
@@ -29,17 +31,27 @@ TEST_DATA = [
 ]
 
 
+def get_elevation_from_gdallocationinfo(filename, lat, lon):
+    output = subprocess.check_output([
+        'gdallocationinfo', filename, '-wgs84', str(lon), str(lat)
+    ])
+    return int(re.search('Value: (\d+)', str(output)).group(1))
+
+
 class TestSRTMMethods(unittest.TestCase):
 
     def test_get_elevation(self):
         for mountain in TEST_DATA:
             elevation = get_elevation(mountain['lat'], mountain['lon'])
-            self.assertEquals(elevation, mountain['alt'])
+            gdal_elevation = get_elevation_from_gdallocationinfo(
+                mountain['filename'], mountain['lat'], mountain['lon']
+            )
+            self.assertEqual(elevation, gdal_elevation)
 
     def test_get_file_name(self):
         for mountain in TEST_DATA:
             filename = get_file_name(mountain['lat'], mountain['lon'])
-            self.assertEquals(filename, mountain['filename'])
+            self.assertEqual(filename, mountain['filename'])
 
 
 if __name__ == '__main__':
